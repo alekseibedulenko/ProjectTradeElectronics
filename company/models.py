@@ -70,6 +70,26 @@ class Company(models.Model):
         return self.supplier.hierarchy_level + 1
 
 
+class Product(models.Model):
+    """
+    Модель Product представляет собой продукт, который продается компанией.
 
+    Attributes:
+        name (str): Название продукта.
+        model (str): Модель продукта.
+        release_date (DateField): Дата выхода продукта на рынок.
+        company (ForeignKey): Ссылка на компанию, которая предлагает этот продукт.
+    """
 
+    name = models.CharField(max_length=255)
+    model = models.CharField(max_length=255)
+    release_date = models.DateField()
+    company = models.ForeignKey(
+        Company, related_name="products", on_delete=models.CASCADE
+    )
 
+    def __str__(self):
+        """
+        Возвращает строковое представление объекта Product, включающее название и модель продукта.
+        """
+        return f"{self.name} ({self.model})"
